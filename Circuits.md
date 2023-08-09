@@ -16,3 +16,26 @@ Problem definition for **ZKP**: given a *message* and a *Merkle root hash* (aggr
 
 Why *Poseidon* hash function was chosen for Merkle Tree?
 - The *Poseidon* is a hash function designed for zero-knowledge proof systems like *zk-SNARKs*. The main advantage of the Poseidon hash is simplification in circuits building. By using this hash function (instead of something more popular like Keccak of SHA-256) we significantly reduce amount of constraints, proving key size and proof generation time.
+
+![ZKP Design Image](imgs/Proof_logic.png)
+
+Circuits are compiled into *WASM*, which then can be executed in browser to generate proof.
+
+Circuit inputs:
+
+- *(priv)* ***Sig***: ESDSA signature of the message hash emulated on *Secp256k1* curve; We need to emulate *Secp256k1* curve as this curve is native for EVM-compatible blockchains, and currently user in EVM-compatible wallet (like MetaMask) can sign message only by using this curve;
+
+- **(pub)** ***Msg***: hash of the message that was signed;
+
+- *(priv)* ***Pub***: public key of the user that is signing the message; This field is not required as we can obtain public key of the signer by using `EcRecover(Sig, Msg)`, but using it simplifies proof logic. *May be removed in future releases;*
+
+- **(pub)** ***TreeLevel***: parameter that indicates what is the current depth of a *Merkle Tree*;
+
+- *(priv)* ***Path***: array of Merkle Branches, length **20**; Length is predefined in circuit and indicates maximal depth of a *Merkle Tree*;
+
+- **(pub)** ***RootHash***: Merkle Tree Root.
+
+If depth of a Merkle Tree is static, why do we need to specify *TreeLevel*?
+
+- This is done to optimize *Merkle Tree* operations. When the amount of participants is low, oracle is building *Merkle Tree* with lower depth. When verifying, user retrieves only the needed amount of *Merkle Branches* to get to *Merkle Root* and submits array of those branches (*Path*) and its size (*TreeLevel*). All other items in *Path* are left empty (***0***). Circuit for verification will ignore them.
+
