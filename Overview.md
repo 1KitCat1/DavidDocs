@@ -18,6 +18,12 @@ Go library **gnark** is used for circuits that are used to prove that the user o
 
 Frontend modules provides an ability for user to create a feedback message, sign it with wallet (like Metamask), create a proof that the message is indeed written by the authorized user (by generating zero knowledge proofs *gnark circuits* compiled to *wasm*) and publish *message & proof* from any other account.
 
+### 🍴 Forked GETH for faster ZKP verification
+
+**zk-SNARK** proof can be verified with resonable gas price due to implemented into Ethereum node precompiled contracts (***0x6-0x8***) that were introduced in *EIP-196* and *EIP-197*. They provide gas-effective operations (addition, scalar multiptication and checking a paring on elliptic curve `alt_bn128`). 
+
+***DOVID*** introduce a fork of **GETH** that implements a new precompiled contract. It is designed to efficienlty verify a **SNARK** proof. 
+
 
 ## 🏢 System Design
 
