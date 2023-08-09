@@ -37,5 +37,5 @@ Circuit inputs:
 
 If depth of a Merkle Tree is static, why do we need to specify *TreeLevel*?
 
-- This is done to optimize *Merkle Tree* operations. When the amount of participants is low, oracle is building *Merkle Tree* with lower depth. When verifying, user retrieves only the needed amount of *Merkle Branches* to get to *Merkle Root* and submits array of those branches (*Path*) and its size (*TreeLevel*). All other items in *Path* are left empty (***0***). Circuit for verification will ignore them.
+- This is done to optimize *Merkle Tree* operations. When the number of participants is low, the oracle builds a *Merkle Tree* with a lower depth. When verifying, the user retrieves only the needed amount of *Merkle Branches* to get to *Merkle Root* and submits an array of those branches (*Path*) and their size (*TreeLevel*). All other items in *Path* are left empty (***0***). Circuit for verification will ignore them.
 
