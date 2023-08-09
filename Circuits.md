@@ -39,3 +39,4 @@ If depth of a Merkle Tree is static, why do we need to specify *TreeLevel*?
 
 - This is done to optimize *Merkle Tree* operations. When the number of participants is low, the oracle builds a *Merkle Tree* with a lower depth. When verifying, the user retrieves only the needed amount of *Merkle Branches* to get to *Merkle Root* and submits an array of those branches (*Path*) and their size (*TreeLevel*). All other items in *Path* are left empty (***0***). Circuit for verification will ignore them.
 
+Circuits source code: https://gitlab.com/distributed_lab/ethereum-experiments/zk-prover/
