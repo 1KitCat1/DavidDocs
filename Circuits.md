@@ -1,9 +1,11 @@
 # 🔗 Circuits
 
-*zk-SNARKs* were chosen for zero knowledge proofs generation due to their low proof size, as proofs are published to the blockchain.
+Circuits source code: https://gitlab.com/distributed_lab/ethereum-experiments/zk-prover/
+
+*zk-SNARKs* were chosen for zero knowledge proofs generation due to their low proof size, as proofs are published to the blockchain where storage can be quite expensive.
 **DAVID** supports *Groth16* and *PLONK* schemes. Both those schemes requires trusted setup (pre-circuit in *Groth16* and universal in *PLONK*). 
 
-Currently we are using computer randomness for this setup. As long as malicious adversary cannot obtain access to secret parameters used in setup, the system is considered secure. For production MPC (multiparty computation computation) is required for the security purposes (*Powers of Tau* ceremony). 
+Currently we are using computer randomness for this setup. As long as malicious adversary cannot obtain access to secret parameters used in setup, the system is considered secure. For production MPC (multiparty computation computation) is recommended for the security purposes (*Powers of Tau* ceremony). 
 
 For *zk-SNARK* circuits engineering Go library **gnark** is used.
 
@@ -39,4 +41,18 @@ If depth of a Merkle Tree is static, why do we need to specify *TreeLevel*?
 
 - This is done to optimize *Merkle Tree* operations. When the number of participants is low, the oracle builds a *Merkle Tree* with a lower depth. When verifying, the user retrieves only the needed amount of *Merkle Branches* to get to *Merkle Root* and submits an array of those branches (*Path*) and their size (*TreeLevel*). All other items in *Path* are left empty (***0***). Circuit for verification will ignore them.
 
-Circuits source code: https://gitlab.com/distributed_lab/ethereum-experiments/zk-prover/
+
+***Circuits key serialization:***
+
+Considering peculiarities of the ethereum precompiled contracts, and mainly how input is brought in the function, it is needed to have efficient serialization mechanism to pass several arguments in one input. That is why here is used the following schema in big-endian format:
+
+- **UINT16** - *elliptic curve ID*
+- **UINT32** - length of public witness
+- *Public witness*
+- **UINT32** - length of the proof
+- *Proof*
+- *Verifier key*
+
+
+***Amount of resouces taken by the functions:***
+
