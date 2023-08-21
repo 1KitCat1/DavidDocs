@@ -56,3 +56,20 @@ Considering peculiarities of the ethereum precompiled contracts, and mainly how 
 
 ***Amount of resouces taken by the functions:***
 
+Poseidon Hash:
+```
+parsed circuit inputs nbPublic=1 nbSecret=1  
+backend=groth16 nbConstraints=214 took=0.976
+prover done backend=groth16 curve=bn254 nbConstraints=214 took=5.8604
+verifier done backend=groth16 curve=bn254 took=1.953
+```
+
+ECDSA over Secp256k1
+```
+parsed circuit inputs nbPublic=0 nbSecret=20
+building constraint builder nbConstraints=4192057
+constraint system solver done backend=groth16 nbConstraints=4192057 took=639.429015
+prover done backend=groth16 curve=bn254 nbConstraints=4192057 took=8863.920549
+verifier done backend=groth16 curve=bn254 took=0.877522
+```
+
